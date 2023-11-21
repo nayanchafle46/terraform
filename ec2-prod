@@ -1,0 +1,346 @@
+resource "aws_instance" "ec2_instance" {
+    ami                                  = "ami-0287a05f0ef0e9d9a"
+    availability_zone                    = "ap-south-1b"
+    instance_type                        = "m4.xlarge"
+    key_name                             = "flavum-prod"
+    
+    security_groups                      = []
+    
+    subnet_id                            = "subnet-03f53cd6ecfdea2c7"
+    tags                                 = {
+        "Name" = "prod_flavum_app_ap_south_1b"
+    }
+    tags_all                             = {
+        "Name" = "prod_flavum_app_ap_south_1b" 
+    } 
+}
+
+
+resource "aws_security_group" "ec2_sg" {
+description = "This security group is for backend"
+    egress      = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to internet"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to internet"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to mongodb atlas"
+            from_port        = 27017
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 27017
+        },
+        {
+            cidr_blocks      = []
+            description      = "request to self"
+            from_port        = 3001
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = true
+            to_port          = 3001
+        },
+    ]
+    ingress     = [
+        {
+            cidr_blocks      = [
+                "65.0.81.174/32",
+            ]
+            description      = "request from jenkins to app server"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 22
+        },
+        {
+            cidr_blocks      = []
+            description      = "request from webserver"
+            from_port        = 3001
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = [
+                "sg-0c822718ea36c4a1c",
+            ]
+            self             = false
+            to_port          = 3001
+        },
+    ]
+    name        = "flavum-prod-app-sg"
+    tags        = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-app-sg"
+    }
+    tags_all    = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-app-sg"
+    }
+    vpc_id      = "vpc-00341ab7e47b0148c"
+}
+
+resource "aws_instance" "ec2_instance-2" {
+    ami                                  = "ami-0287a05f0ef0e9d9a"
+    availability_zone                    = "ap-south-1a"
+    instance_type                        = "t3a.medium"
+    key_name                             = "flavum-prod"
+    security_groups                      = []
+    subnet_id                            = "subnet-0d5ada421b9ca571a"
+    tags                                 = {
+        "Name" = "prod_flavum_web_ap_south_1a"
+    }
+    tags_all                             = {
+        "Name" = "prod_flavum_web_ap_south_1a"
+    }
+}
+
+resource "aws_security_group" "ec2_sg-2" {
+ description = "This security group for frontend"
+    egress      = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from webserver to internet"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from webserver to internet"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = [
+                "65.0.81.174/32",
+            ]
+            description      = ""
+            from_port        = 8080
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 8080
+        },
+        {
+            cidr_blocks      = []
+            description      = "request to app server"
+            from_port        = 3001
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = [
+                "sg-0e697111850acaa7c",
+            ]
+            self             = false
+            to_port          = 3001
+        },
+    ]
+    ingress     = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from internet to webserver"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from internet to webserver"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = [
+                "65.0.81.174/32",
+            ]
+            description      = "from jenkins to web server"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 22
+        },
+    ]
+    name        = "flavum-prod-web-sg"
+    tags        = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-web-sg"
+    }
+    tags_all    = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-web-sg"
+    }
+    vpc_id      = "vpc-00341ab7e47b0148c"
+}
+
+
+resource "aws_instance" "ec2_instance-3" {
+    ami                                  = "ami-0287a05f0ef0e9d9a"
+    availability_zone                    = "ap-south-1a"
+    instance_type                        = "m4.xlarge"
+    key_name                             = "flavum-prod"
+    security_groups                      = []
+    subnet_id                            = "subnet-0d5ada421b9ca571a"
+    tags                                 = {
+        "Name" = "prod_flavum_app_ap_south_1a"
+    }
+    tags_all                             = {
+        "Name" = "prod_flavum_app_ap_south_1a"
+    }
+}
+
+resource "aws_security_group" "ec2_sg-3" {
+description = "This security group is for backend"
+    egress      = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to internet"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to internet"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from app server to mongodb atlas"
+            from_port        = 27017
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 27017
+        },
+        {
+            cidr_blocks      = []
+            description      = "request to self"
+            from_port        = 3001
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = true
+            to_port          = 3001
+        },
+    ]
+    
+    ingress     = [
+        {
+            cidr_blocks      = [
+                "65.0.81.174/32",
+            ]
+            description      = "request from jenkins to app server"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 22
+        },
+        {
+            cidr_blocks      = []
+            description      = "request from webserver"
+            from_port        = 3001
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = [
+                "sg-0c822718ea36c4a1c",
+            ]
+            self             = false
+            to_port          = 3001
+        },
+    ]
+    name        = "flavum-prod-app-sg"
+    tags        = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-app-sg"
+    }
+    tags_all    = {
+        "Environment" = "prod"
+        "Name"        = "flavum-prod-app-sg"
+    }
+    vpc_id      = "vpc-00341ab7e47b0148c"
+}
