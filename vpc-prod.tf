@@ -71,3 +71,16 @@ resource "aws_route_table_association" "rt-public-2" {
     route_table_id = "rtb-07c67f788fecb98e9"
     subnet_id      = "subnet-0d5ada421b9ca571a"
 }
+resource "aws_eip" "main" {
+    domain               = "vpc"
+    instance             = "i-087947a8e5db4ef22"
+   
+    tags                 = {
+        "Environment" = "prod"
+        "Name"        = "prod_flavum_web_ap_south_1a"
+    }
+    tags_all             = {
+        "Environment" = "prod"
+        "Name"        = "prod_flavum_web_ap_south_1a"
+    }
+}
