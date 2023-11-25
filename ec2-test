@@ -1,0 +1,68 @@
+description = "this security group is for test env"
+    egress      = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = ""
+            from_port        = 0
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "-1"
+            security_groups  = []
+            self             = false
+            to_port          = 0
+        },
+    ]
+    ingress     = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = ""
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = ""
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = []
+            description      = "from jenkins to test environment"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = [
+                "sg-02983d6f7dbb0f728",
+            ]
+            self             = false
+            to_port          = 22
+        },
+    ]
+    name        = "flavum-test-sg"
+    tags        = {
+        "Environment" = "test"
+        "Name"        = "flavum-test-sg"
+    }
+    tags_all    = {
+        "Environment" = "test"
+        "Name"        = "flavum-test-sg"
+    }
+    vpc_id      = "vpc-0ed46b6e067849b2f"
+}
