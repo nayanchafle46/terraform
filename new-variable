@@ -1,0 +1,23 @@
+variable "ami" {
+  default = "ami-0287a05f0ef0e9d9a"
+}
+
+variable "instance_type" {
+  default = "t3.medium"
+}
+
+variable "instance_name" {
+    default = "development_flavum_webapp_s1a"
+}
+
+variable "availability_zone" {
+    default = "ap-south-1a"
+}
+
+variable "key_name" {
+    default = "flavum-dev-key"
+}
+
+variable "subnet_id" {
+    default = "subnet-08e84a08f00d08b88"
+}
