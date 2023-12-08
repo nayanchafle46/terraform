@@ -1,0 +1,110 @@
+resource "aws_instance" "ec2_instance_dev" {
+    ami                                  = var.ami
+    availability_zone                    = var.availability_zone    
+    instance_type                        = var.instance_type
+    key_name                             = var.key_name
+    security_groups                      = []
+    subnet_id                            = var.subnet_id
+    tags                                 = {
+        "Name" = var.instance_name
+    }
+    tags_all                             = {
+        "Name" = var.instance_name
+    }
+}
+
+resource "aws_security_group" "ec2_sg_dev" {
+description = "For development "
+    egress      = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from dev to Mongodb compass"
+            from_port        = 27017
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 27017
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from dev to internet"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from dev to internet"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+    ]
+    ingress     = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from internet to dev"
+            from_port        = 443
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 443
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "from internet to dev"
+            from_port        = 80
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 80
+        },
+        {
+            cidr_blocks      = [
+                "13.233.127.82/32",
+            ]
+            description      = "from jenkins to dev"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 22
+        },
+    ]
+    name        = "flavum-dev-sg"
+    tags        = {
+        "Environment" = "dev"
+        "Name"        = "flavum-dev-sg"
+    }
+    tags_all    = {
+        "Environment" = "dev"
+        "Name"        = "flavum-dev-sg"
+    }
+    vpc_id      = "vpc-0c647e3d44962f83b"
+}
