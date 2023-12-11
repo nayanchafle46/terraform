@@ -1,4 +1,4 @@
-resource "aws_instance" "ec2_instance_dev" {
+resource "aws_instance" "ec2_instance_devlopment" {
     ami                                  = var.ami
     availability_zone                    = var.availability_zone    
     instance_type                        = var.instance_type
@@ -13,7 +13,7 @@ resource "aws_instance" "ec2_instance_dev" {
     }
 }
 
-resource "aws_security_group" "ec2_sg_dev" {
+resource "aws_security_group" "ec2_sg_devlopment" {
 description = "For development "
     egress      = [
         {
@@ -97,14 +97,14 @@ description = "For development "
             to_port          = 22
         },
     ]
-    name        = "flavum-dev-sg"
+    name        = var.name
     tags        = {
-        "Environment" = "dev"
-        "Name"        = "flavum-dev-sg"
+        "Environment" = var.Environment
+        "Name"        = var.name
     }
     tags_all    = {
-        "Environment" = "dev"
-        "Name"        = "flavum-dev-sg"
+        "Environment" = var.Environment
+        "Name"        = var.name
     }
-    vpc_id      = "vpc-0c647e3d44962f83b"
+    vpc_id      = var.vpc_id
 }
