@@ -1,0 +1,71 @@
+resource "aws_vpc" "dev" {
+    cidr_block                           = var.cidr_block
+    tags                                 = {
+        "Environment" = var.Environment
+        "Name"        = var.Name
+    }
+    tags_all                             = {
+        "Environment" = var.Environment
+        "Name"        = var.Name
+    }
+}
+
+resource "aws_subnet" "sub1" {
+    cidr_block                                     = "172.31.1.0/24"
+    tags                                           = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-subnet-s1a"
+    }
+    tags_all                                       = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-subnet-s1a"
+    }
+    vpc_id                                         = var.vpc_id
+}
+
+resource "aws_subnet" "sub2" {
+    cidr_block                                     = "172.31.2.0/24"
+    tags                                           = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-subnet-s1b"
+    }
+    tags_all                                       = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-subnet-s1b"
+    }
+    vpc_id                                         = var.vpc_id
+}
+
+resource "aws_internet_gateway" "igw" {
+tags     = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-igw"
+    }
+    tags_all = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-igw"
+    }
+    vpc_id   = var.vpc_id
+}
+
+resource "aws_route_table" "public" {
+ tags             = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-public-rt"
+    }
+    tags_all         = {
+        "Environment" = var.Environment
+        "Name"        = "flavum-dev-public-rt"
+    }
+    vpc_id           = var.vpc_id
+}
+
+resource "aws_route_table_association" "rt-public" {
+    route_table_id = var.route_table_id
+    subnet_id      = "subnet-08e84a08f00d08b88"
+}
+
+resource "aws_route_table_association" "rt-public-2" {
+    route_table_id = var.route_table_id
+    subnet_id      = "subnet-002fbc64739e0d4fb"
+}
