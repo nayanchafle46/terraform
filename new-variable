@@ -1,3 +1,5 @@
+#ec2
+
 variable "ami" {
   default = "ami-0287a05f0ef0e9d9a"
 }
@@ -20,4 +22,30 @@ variable "key_name" {
 
 variable "subnet_id" {
     default = "subnet-08e84a08f00d08b88"
+}
+
+variable "name" {
+    default = "flavum-dev-sg"
+}
+
+variable "vpc_id" {
+    default = "vpc-0c647e3d44962f83b"
+}
+
+#vpc
+
+variable "Name" {
+    default = "flavum-dev-vpc"
+}
+
+variable "Environment" {
+    default = "dev"
+}
+
+variable "cidr_block" {
+    default = "172.31.0.0/16"
+}
+
+variable "route_table_id" {
+    default = "rtb-03a700201285987cc"
 }
